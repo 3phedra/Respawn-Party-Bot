@@ -1,0 +1,8 @@
+/conf/.env
+.venv/
+.idea/
+.vscode/
+__pycache__/
+tmp/
+log/discord.log
+db/db.db
