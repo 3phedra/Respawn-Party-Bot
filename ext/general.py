@@ -90,8 +90,6 @@ class General(commands.Cog, name="general"):
             )
         await context.send(embed=embed)
 
-
-
     @commands.hybrid_command(
         name="serverinfo",
         description="Get some useful (or not) information about the server.",

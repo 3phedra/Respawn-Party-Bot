@@ -26,14 +26,18 @@ class RPCBot(commands.Bot):
         self.database = None
 
     async def init_db(self) -> None:
+        schemas: list = []
+        for root, dirs, files in os.walk(f"{os.path.realpath(os.path.dirname(__file__))}/db/submodules"):
+            for file in files:
+                if file == "schema.sql":
+                    schemas.append(os.path.realpath(root + "/" + file))
         async with aiosqlite.connect(
                 f"{os.path.realpath(os.path.dirname(__file__))}/db/db.db"
         ) as db:
-            with open(
-                    f"{os.path.realpath(os.path.dirname(__file__))}/db/schema.sql"
-            ) as file:
-                await db.executescript(file.read())
-            await db.commit()
+            for schema in schemas:
+                with open(schema) as file:
+                    await db.executescript(file.read())
+                await db.commit()
 
     async def load_cogs(self) -> None:
         """
