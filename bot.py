@@ -9,8 +9,8 @@ from discord.ext import commands, tasks
 from discord.ext.commands import Context
 
 from conf.bot_init import TOKEN, PREFIX, intents
-from log.bot_logging import logger
-from db.bot_db import DatabaseManager
+from log.log_bot import logger
+from db.db_bot import DatabaseManager
 
 
 class RPCBot(commands.Bot):
@@ -165,7 +165,8 @@ class RPCBot(commands.Bot):
         elif isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(
                 title="Error!",
-                # We need to capitalize because the command arguments have no capital letter in the code and they are the first word in the error message.
+                # We need to capitalize because the command arguments have no capital letter in the code, and they
+                # are the first word in the error message.
                 description=str(error).capitalize(),
                 color=0xE02B2B,
             )

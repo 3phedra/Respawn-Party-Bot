@@ -65,47 +65,11 @@ class Moderation(commands.Cog, name="moderation"):
                 await member.kick(reason=reason)
             except:
                 embed = discord.Embed(
-                    description="An error occurred while trying to kick the user. Make sure my role is above the role of the user you want to kick.",
+                    description="An error occurred while trying to kick the user. Make sure my role is above the role "
+                                "of the user you want to kick.",
                     color=0xE02B2B,
                 )
                 await context.send(embed=embed)
-
-    @commands.hybrid_command(
-        name="nick",
-        description="Change the nickname of a user on a server.",
-    )
-    @commands.has_permissions(manage_nicknames=True)
-    @commands.bot_has_permissions(manage_nicknames=True)
-    @app_commands.describe(
-        user="The user that should have a new nickname.",
-        nickname="The new nickname that should be set.",
-    )
-    async def nick(
-            self, context: Context, user: discord.User, *, nickname: str = None
-    ) -> None:
-        """
-        Change the nickname of a user on a server.
-
-        :param context: The hybrid command context.
-        :param user: The user that should have its nickname changed.
-        :param nickname: The new nickname of the user. Default is None, which will reset the nickname.
-        """
-        member = context.guild.get_member(user.id) or await context.guild.fetch_member(
-            user.id
-        )
-        try:
-            await member.edit(nick=nickname)
-            embed = discord.Embed(
-                description=f"**{member}'s** new nickname is **{nickname}**!",
-                color=0xBEBEFE,
-            )
-            await context.send(embed=embed)
-        except:
-            embed = discord.Embed(
-                description="An error occurred while trying to change the nickname of the user. Make sure my role is above the role of the user you want to change the nickname.",
-                color=0xE02B2B,
-            )
-            await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="ban",
@@ -154,7 +118,8 @@ class Moderation(commands.Cog, name="moderation"):
         except:
             embed = discord.Embed(
                 title="Error!",
-                description="An error occurred while trying to ban the user. Make sure my role is above the role of the user you want to ban.",
+                description="An error occurred while trying to ban the user. Make sure my role is above the role of "
+                            "the user you want to ban.",
                 color=0xE02B2B,
             )
             await context.send(embed=embed)
@@ -172,7 +137,8 @@ class Moderation(commands.Cog, name="moderation"):
         """
         if context.invoked_subcommand is None:
             embed = discord.Embed(
-                description="Please specify a subcommand.\n\n**Subcommands:**\n`add` - Add a warning to a user.\n`remove` - Remove a warning from a user.\n`list` - List all warnings of a user.",
+                description="Please specify a subcommand.\n\n**Subcommands:**\n`add` - Add a warning to a "
+                            "user.\n`remove` - Remove a warning from a user.\n`list` - List all warnings of a user.",
                 color=0xE02B2B,
             )
             await context.send(embed=embed)
@@ -290,48 +256,10 @@ class Moderation(commands.Cog, name="moderation"):
         )  # Bit of a hacky way to make sure the bot responds to the interaction and doens't get a "Unknown Interaction" response
         purged_messages = await context.channel.purge(limit=amount + 1)
         embed = discord.Embed(
-            description=f"**{context.author}** cleared **{len(purged_messages)-1}** messages!",
+            description=f"**{context.author}** cleared **{len(purged_messages) - 1}** messages!",
             color=0xBEBEFE,
         )
         await context.channel.send(embed=embed)
-
-    @commands.hybrid_command(
-        name="hackban",
-        description="Bans a user without the user having to be in the server.",
-    )
-    @commands.has_permissions(ban_members=True)
-    @commands.bot_has_permissions(ban_members=True)
-    @app_commands.describe(
-        user_id="The user ID that should be banned.",
-        reason="The reason why the user should be banned.",
-    )
-    async def hackban(
-            self, context: Context, user_id: str, *, reason: str = "Not specified"
-    ) -> None:
-        """
-        Bans a user without the user having to be in the server.
-
-        :param context: The hybrid command context.
-        :param user_id: The ID of the user that should be banned.
-        :param reason: The reason for the ban. Default is "Not specified".
-        """
-        try:
-            await self.bot.http.ban(user_id, context.guild.id, reason=reason)
-            user = self.bot.get_user(int(user_id)) or await self.bot.fetch_user(
-                int(user_id)
-            )
-            embed = discord.Embed(
-                description=f"**{user}** (ID: {user_id}) was banned by **{context.author}**!",
-                color=0xBEBEFE,
-            )
-            embed.add_field(name="Reason:", value=reason)
-            await context.send(embed=embed)
-        except Exception:
-            embed = discord.Embed(
-                description="An error occurred while trying to ban the user. Make sure ID is an existing ID that belongs to a user.",
-                color=0xE02B2B,
-            )
-            await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="archive",
@@ -343,7 +271,8 @@ class Moderation(commands.Cog, name="moderation"):
     )
     async def archive(self, context: Context, limit: int = 10) -> None:
         """
-        Archives in a text file the last messages with a chosen limit of messages. This command requires the MESSAGE_CONTENT intent to work properly.
+        Archives in a text file the last messages with a chosen limit of messages. This command requires the
+        MESSAGE_CONTENT intent to work properly.
 
         :param limit: The limit of messages that should be archived. Default is 10.
         """

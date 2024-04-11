@@ -2,8 +2,10 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import Context
 
+
 # TODO: Der reminder hat noch keine remind funktion. Außerdem is der code echt hässlich.
 # TODO: Validation bei der Eingabe von duration - entschlüsseln nach Sekunden, Minuten etc. und formatieren in sqlite
+# TODO: Simplifizieren der flows - siehe ext_customlists
 
 class Timers(commands.Cog, name="timers"):
     def __init__(self, bot) -> None:
@@ -54,9 +56,9 @@ class Timers(commands.Cog, name="timers"):
             try:
                 del_id = args.split(' ')[1]
                 await self.remindme_del(context, int(del_id))
-            except:
+            except Exception as e:
                 embed = discord.Embed(
-                    description="nö.",
+                    description=f"{e}",
                     color=0xBEBEFE,
                 )
                 await context.send(embed=embed)
